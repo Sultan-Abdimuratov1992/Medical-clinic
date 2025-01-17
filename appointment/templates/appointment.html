@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{title}}{% endblock %}
+{% block section %} 
+<section class="book_section layout_padding">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <form method="post">
+          {% csrf_token %}
+          <h4>
+            Записаться <span>на прием</span>
+          </h4>
+          <div class="form-row ">
+            <div class="form-group col-lg-4">
+              <label for="inputPatientName">{{form.first_name.label}}</label>
+              {{form.first_name}}
+              {% if form.first_name.errors %}
+                <div class="text-danger">
+                  {{form.first_name.errors|join:", "}}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="inputPatientName">{{form.last_name.label}}</label>
+              {{form.last_name}}
+              {% if form.last_name.errors %}
+                <div class="text-danger">
+                  {{form.last_name.errors|join:", "}}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="inputPatientName">{{form.phone.label}}</label>
+              {{form.phone}}
+              {% if form.phone.errors %}
+                <div class="text-danger">
+                  {{form.phone.errors|join:", "}}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="inputPatientName">{{form.birth_date.label}}</label>
+              {{form.birth_date}}
+              {% if form.birth_date.errors %}
+                <div class="text-danger">
+                  {{form.birth_date.errors|join:", "}}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="inputPatientName">{{form.appointment_date.label}}</label>
+              {{form.appointment_date}}
+              {% if form.appointment_date.errors %}
+                <div class="text-danger">
+                  {{form.appointment_date.errors|join:", "}}
+                </div>
+              {% endif %}
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="inputDepartmentName">{{ form.service.label }}</label>
+              {{ form.service }}
+              {% if form.service.errors %}
+                <div class="text-danger">
+                  {{ form.service.errors|join:", " }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="btn-box">
+            <button type="submit" class="btn ">Записаться</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

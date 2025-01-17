@@ -1,0 +1,26 @@
+{% extends 'base-admin.html' %}
+{% load static %}
+{% block title %} {{title}} {% endblock %}
+{% block section %}
+<div class="container mt-5">
+  <div class="page-error">
+    <div class="page-inner">
+      <h4>Вы действительно хотите удалить услуг {{ service.name }} ?</h4>
+      <div class="page-search">
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-group floating-addon floating-addon-not-append">
+            <div class="input-group">
+              <div class="input-group-append">
+                <button class="btn btn-primary btn-lg">
+                  Удалить
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

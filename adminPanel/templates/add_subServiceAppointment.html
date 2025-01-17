@@ -1,0 +1,107 @@
+{% extends 'base-admin.html' %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+{% block section %}
+<div class="section-body">
+  <div class="row">
+    <div class="col-12 col-md-8 col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <h4>Информация о записи</h4>
+        </div>
+        <div class="card-body">
+          <p><strong>Имя пациента:</strong> {{ appointment.first_name }}</p>
+          <p><strong>Фамилия пациента:</strong> {{ appointment.last_name }}</p>
+          <p><strong>Телефон:</strong> {{ appointment.phone }}</p>
+          <p><strong>Дата приема:</strong> {{ appointment.appointment_date }}</p>
+          <p><strong>Услуга:</strong> {{ appointment.service.name }}</p> <hr>
+          <h3>Под-услуги для {{ appointment.service.name }}:</h3>
+          <form action="" method="post">
+            {% csrf_token %}
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-striped" style="width: 100%; text-align: left; border-collapse: collapse;">
+                    <thead>
+                      <tr>
+                        <th>Выбрать</th>
+                        <th>Название под-услуги</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Общая сумма</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for x in subService %}
+                        {% if x.service_id == appointment.service.pk %}
+                        <tr>
+                          <td>
+                            <input type="checkbox" name="subService" value="{{ x.pk }}" class="subservice-checkbox">
+                          </td>
+                          <td>{{ x.name }}</td>
+                          <td>{{ x.price }}</td>
+                          <td>
+                            <input type="number" name="quantity_{{ x.pk }}" value="1" min="1" class="quantity-input" style="width: 60px;" disabled>
+                          </td>
+                          <td class="total-price">0.00</td>
+                        </tr>
+                        {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            <p><strong>Общая сумма платежа:</strong> <span id="grand-total">0.00</span> сум.</p>
+            <button class="btn btn-primary" type="submit">Сохранить изменения</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const checkboxes = document.querySelectorAll(".subservice-checkbox");
+    const grandTotal = document.getElementById("grand-total");
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener("change", function() {
+        const row = this.closest("tr");
+        const quantityInput = row.querySelector(".quantity-input");
+        const price = parseFloat(row.cells[2].textContent);
+        const totalPriceCell = row.querySelector(".total-price");
+
+        if (this.checked) {
+          quantityInput.disabled = false;
+          const quantity = parseFloat(quantityInput.value);
+          totalPriceCell.textContent = (price * quantity).toFixed(2);
+        } else {
+          quantityInput.disabled = true;
+          totalPriceCell.textContent = "0.00";
+        }
+        updateGrandTotal();
+      });
+
+      const quantityInput = checkbox.closest("tr").querySelector(".quantity-input");
+      quantityInput.addEventListener("input", function() {
+        const row = this.closest("tr");
+        const price = parseFloat(row.cells[2].textContent);
+        const totalPriceCell = row.querySelector(".total-price");
+
+        if (checkbox.checked) {
+          const quantity = parseFloat(this.value);
+          totalPriceCell.textContent = (price * quantity).toFixed(2);
+          updateGrandTotal();
+        }
+      });
+    });
+
+    function updateGrandTotal() {
+      let total = 0;
+      document.querySelectorAll(".total-price").forEach(cell => {
+        total += parseFloat(cell.textContent);
+      });
+      grandTotal.textContent = total.toFixed(2);
+    }
+  });
+</script>
+{% endblock %}

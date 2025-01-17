@@ -1,0 +1,86 @@
+{% extends 'base-admin.html' %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+{% block section %}
+<div class="section-body">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h4>Общий список пациентов</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover" id="tableExport" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>Имя</th>
+                  <th>Фамилия</th>
+                  <th>Дата рождение</th>
+                  <th>Тел.Номер</th>
+                  <th>Дата запись</th>
+                  <th>Сервис</th>
+                  <th>Под-сервис</th>
+                  <th>Доктор</th>
+                  <th>Дата начало</th>
+                  <th>Дата окончание</th>
+                  <th>Статус</th>
+                  <th>Платеж</th>
+                  <th>Удалить</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for appointment in appointment %}
+                <tr>
+                  <td>{{appointment.first_name}}</td>
+                  <td>{{appointment.last_name}}</td>
+                  <td>{{appointment.birth_date}}</td>
+                  <td>{{appointment.phone}}</td>
+                  <td>{{appointment.appointment_date}}</td>
+                  <td>{{appointment.service}}</td>
+                  <td>
+                    {% if appointment.subService.all %}
+                      {% for sub_service in appointment.subService.all %}
+                        <p>{{ sub_service.name|truncatewords:5|linebreaks }} - {{ sub_service.price }} сум</p>
+                      {% endfor %}
+                    {% else %}
+                      <p><a href="{% url 'admin_panel:add_subServiceAppointment_page' appointment.pk %}">Добавить под-сервис</a></p>
+                    {% endif %}
+                  </td>
+                  {% if appointment.doctor %}
+                    <td>{{appointment.doctor}}</td>
+                  {% else %}
+                    <td><a href="{% url 'admin_panel:add_doctorAppointment_page' appointment.pk %}">Добавить доктор</a></td>
+                  {% endif %}
+                  {% if appointment.date_start %}
+                    <td>{{appointment.date_start}}</td>
+                  {% else %}
+                    <td><a href="{% url 'admin_panel:add_dates_page' appointment.pk %}">Добавить время</a></td>
+                  {% endif %}
+                  {% if appointment.date_start %}
+                    <td>{{appointment.date_start}}</td>
+                  {% else %}
+                    <td>Заполните дату</td>
+                  {% endif %}
+                  {% if appointment.status %}
+                    <td>{{appointment.status.name}}</td>
+                  {% else %}
+                    <td><a href="{% url 'admin_panel:addStatusAppointment_page' appointment.pk %}">Добавить статус</a></td>
+                  {% endif %}
+                  {% if appointment.payment %}
+                    <td>Оплачено</td>
+                  {% else %}
+                    <td><a href="{% url 'admin_panel:addPaymentAppointment_page' appointment.pk %}">Добавить платеж</a></td>
+                  {% endif %}
+                    <td><a href="{% url 'admin_panel:delete_appointment_page' appointment.pk %}" class="btn btn-danger">Удалить</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
