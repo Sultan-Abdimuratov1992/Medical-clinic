@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 def all_list_doctors(request):
   query = request.POST.get('query')
   doctors = Doctor.objects.all()
-  paginator = Paginator(doctors, 1)
+  paginator = Paginator(doctors, 3)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   if query:

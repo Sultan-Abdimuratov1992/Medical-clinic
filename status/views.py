@@ -25,7 +25,7 @@ def add_status(request):
 def all_list_status(request):
   query = request.POST.get('query')
   status = Status.objects.all()
-  paginator = Paginator(status, 1)
+  paginator = Paginator(status, 2)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   if query:

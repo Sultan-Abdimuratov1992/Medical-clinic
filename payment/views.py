@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 def all_list_payment(request):
   query = request.POST.get('query')
   payment = Payment.objects.all()
-  paginator = Paginator(payment, 1)
+  paginator = Paginator(payment, 5)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   if query:

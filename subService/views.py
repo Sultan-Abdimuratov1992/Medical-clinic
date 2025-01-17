@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 def all_list_subService(request):
   query = request.POST.get('query', '')
   sub_service = SubService.objects.all()
-  paginator = Paginator(sub_service, 2)
+  paginator = Paginator(sub_service, 6)
   page_number = request.GET.get('page')
   page_obj = paginator.get_page(page_number)
   if query:
