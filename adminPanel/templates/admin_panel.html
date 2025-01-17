@@ -44,35 +44,35 @@
                         <p>{{ sub_service.name|truncatewords:5|linebreaks }} - {{ sub_service.price }} сум</p>
                       {% endfor %}
                     {% else %}
-                      <p><a href="{% url 'admin_panel:add_subServiceAppointment_page' appointment.pk %}">Добавить под-сервис</a></p>
+                      <p><a class="btn btn-info" href="{% url 'admin_panel:add_subServiceAppointment_page' appointment.pk %}">Добавить под-сервис</a></p>
                     {% endif %}
                   </td>
                   {% if appointment.doctor %}
                     <td>{{appointment.doctor}}</td>
                   {% else %}
-                    <td><a href="{% url 'admin_panel:add_doctorAppointment_page' appointment.pk %}">Добавить доктор</a></td>
+                    <td><a class="btn btn-info" href="{% url 'admin_panel:add_doctorAppointment_page' appointment.pk %}">Добавить доктор</a></td>
                   {% endif %}
                   {% if appointment.date_start %}
                     <td>{{appointment.date_start}}</td>
                   {% else %}
-                    <td><a href="{% url 'admin_panel:add_dates_page' appointment.pk %}">Добавить время</a></td>
+                    <td><a class="btn btn-info" href="{% url 'admin_panel:add_dates_page' appointment.pk %}">Добавить время</a></td>
                   {% endif %}
                   {% if appointment.date_start %}
                     <td>{{appointment.date_start}}</td>
                   {% else %}
-                    <td>Заполните дату</td>
+                    <td class="btn btn-info">Заполните дату</td>
                   {% endif %}
                   {% if appointment.status %}
                     <td>{{appointment.status.name}}</td>
                   {% else %}
-                    <td><a href="{% url 'admin_panel:addStatusAppointment_page' appointment.pk %}">Добавить статус</a></td>
+                    <td><a class="btn btn-info" href="{% url 'admin_panel:addStatusAppointment_page' appointment.pk %}">Добавить статус</a></td>
                   {% endif %}
                   {% if appointment.payment %}
                     <td>Оплачено</td>
                   {% else %}
-                    <td><a href="{% url 'admin_panel:addPaymentAppointment_page' appointment.pk %}">Добавить платеж</a></td>
+                    <td><a class="btn btn-info" href="{% url 'admin_panel:addPaymentAppointment_page' appointment.pk %}">Добавить платеж</a></td>
                   {% endif %}
-                    <td><a href="{% url 'admin_panel:delete_appointment_page' appointment.pk %}" class="btn btn-danger">Удалить</a></td>
+                    <td><a  href="{% url 'admin_panel:delete_appointment_page' appointment.pk %}" class="btn btn-danger">Удалить</a></td>
                 </tr>
                 {% endfor %}
               </tbody>
